@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ExpressionsMenu = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu;
 using ExpressionControl = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu.Control;
 using ExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
+using System.IO;
 
 /*
  * ・テクスチャを切り替えるExpressionMenuを生成する
@@ -344,7 +345,8 @@ class TSEditorWindow : EditorWindow
         {
             if (GUILayout.Button("Export"))
             {
-                if (!AssetDatabase.IsValidFolder(localPath)) AssetDatabase.CreateFolder(editorPath, "Resources");
+                Directory.CreateDirectory(localPath);
+                //if (!AssetDatabase.IsValidFolder(localPath)) AssetDatabase.CreateFolder(editorPath, "Resources");
 
                 //Parameter
                 var parameter = new ExpressionParameters.Parameter();
