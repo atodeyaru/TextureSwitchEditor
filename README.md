@@ -1,0 +1,2 @@
+# TextureSwitchEditor
+看板やアクセサリなどのテクスチャを切り替えるExpressionMenu関係のアセットを自動で生成します
