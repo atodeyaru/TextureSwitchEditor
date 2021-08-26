@@ -88,23 +88,24 @@ class TSEditorWindow : EditorWindow
 
         GUILayout.Space(20);
 
-        atlasSizePopup = EditorGUILayout.IntPopup("Atlas Size", atlasSizePopup, new string[] { "1024", "2048", "4096", "8192", "Custom" }, new int[] { 1024, 2048, 4096, 8192, -1 });
-        if (atlasSizePopup != -1)
-        {
-            atlasSize = atlasSizePopup;
-        }
-        else
-        {
-            atlasSize = EditorGUILayout.IntField("Custom Atlas Size", atlasSize);
-        }
-
         var targetTextureNames = new string[0];
-        if (targetObject != null) if (targetObject.GetComponent<MeshRenderer>() != null) targetTextureNames = targetObject.GetComponent<MeshRenderer>().sharedMaterial.GetTexturePropertyNames();
-        targetTexturePopup = EditorGUILayout.Popup("Shader Property", targetTexturePopup, targetTextureNames);
-
         advancedSetting = EditorGUILayout.Foldout(advancedSetting, "Advanced Setting");
         if (advancedSetting)
         {
+
+            atlasSizePopup = EditorGUILayout.IntPopup("Atlas Size", atlasSizePopup, new string[] { "1024", "2048", "4096", "8192", "Custom" }, new int[] { 1024, 2048, 4096, 8192, -1 });
+            if (atlasSizePopup != -1)
+            {
+                atlasSize = atlasSizePopup;
+            }
+            else
+            {
+                atlasSize = EditorGUILayout.IntField("Custom Atlas Size", atlasSize);
+            }
+
+            if (targetObject != null) if (targetObject.GetComponent<MeshRenderer>() != null) targetTextureNames = targetObject.GetComponent<MeshRenderer>().sharedMaterial.GetTexturePropertyNames();
+
+            targetTexturePopup = EditorGUILayout.Popup("Shader Property", targetTexturePopup, targetTextureNames);
             AnimatorControllerLayerName = EditorGUILayout.TextField("Layer Name", AnimatorControllerLayerName);
             ExpressionsMenuName = EditorGUILayout.TextField("Expression Menu Name", ExpressionsMenuName);
             ExpressionMenuIcon = (Texture2D)EditorGUILayout.ObjectField("Expression Menu Icon", ExpressionMenuIcon, typeof(Texture2D), false);
