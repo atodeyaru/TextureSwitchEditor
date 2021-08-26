@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Animations;
 using ExpressionsMenu = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu;
-using ExpressionControl = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu.Control;
 using ExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
 
 public class TextureSetting : ScriptableObject
@@ -23,5 +22,6 @@ public class TextureSetting : ScriptableObject
     public string ExpressionParameterName = "parameter";
     public string ExpressionsMenuName = "menu";
     public string AnimatorControllerLayerName = "layer";
+    public string resourcesPath = "Assets/Atodeyaru/TextureSwitchEditor/Resources";
     public Texture2D ExpressionMenuIcon = null;
 }

@@ -35,8 +35,7 @@ public struct SubMenu
 
 class TSEditorWindow : EditorWindow
 {
-    const string localPath = "Assets/Atodeyaru/TextureSwitchEditor/Resources";
-    const string editorPath = "Assets/Atodeyaru/TextureSwitchEditor";
+    //const string editorPath = "Assets/Atodeyaru/TextureSwitchEditor";
 
     //TextureSetting setting = null;
     GameObject targetObject = null;
@@ -59,6 +58,7 @@ class TSEditorWindow : EditorWindow
     string ExpressionParameterName = "parameter";
     string ExpressionsMenuName = "menu";
     string AnimatorControllerLayerName = "layer";
+    string resourcesPath = "Assets/Atodeyaru/TextureSwitchEditor/Resources";
     Texture2D ExpressionMenuIcon = null;
 
     [MenuItem("Atodeyaru/TextureSwitchEditor")]
@@ -112,6 +112,7 @@ class TSEditorWindow : EditorWindow
             expressionDefault = EditorGUILayout.IntField("Default Expression Value", expressionDefault);
             expressionSaved = EditorGUILayout.Toggle("Expression Saved", expressionSaved);
             basePixelCount = EditorGUILayout.IntField("Base Pixel Count", basePixelCount);
+            resourcesPath = EditorGUILayout.TextField("Resources Pass", resourcesPath);
             isSettingExport = EditorGUILayout.Toggle("Export Setting", isSettingExport);
         }
 
@@ -140,6 +141,7 @@ class TSEditorWindow : EditorWindow
                     ExpressionParameterName = TextureSetting.ExpressionParameterName;
                     ExpressionsMenuName = TextureSetting.ExpressionsMenuName;
                     AnimatorControllerLayerName = TextureSetting.AnimatorControllerLayerName;
+                    resourcesPath = TextureSetting.resourcesPath;
                     ExpressionMenuIcon = TextureSetting.ExpressionMenuIcon;
                     Repaint();
                 }
@@ -345,7 +347,7 @@ class TSEditorWindow : EditorWindow
         {
             if (GUILayout.Button("Export"))
             {
-                Directory.CreateDirectory(localPath);
+                Directory.CreateDirectory(resourcesPath);
                 //if (!AssetDatabase.IsValidFolder(localPath)) AssetDatabase.CreateFolder(editorPath, "Resources");
 
                 //Parameter
@@ -392,7 +394,7 @@ class TSEditorWindow : EditorWindow
 
                 var baseState = stateMachine.AddState("None", new Vector3(-240.0f, 0.0f, 0.0f));
 
-                if (!AssetDatabase.IsValidFolder(localPath + "/" + targetObject.ToString())) AssetDatabase.CreateFolder(localPath, targetObject.ToString());
+                if (!AssetDatabase.IsValidFolder(resourcesPath + "/" + targetObject.ToString())) AssetDatabase.CreateFolder(resourcesPath, targetObject.ToString());
 
                 //CreateAtlas
                 foreach (var list in textureDataList) foreach (var item in list.Textures) item.StoreAndSetReadable();
@@ -400,7 +402,7 @@ class TSEditorWindow : EditorWindow
 
                 var atlasTexture = new Texture2D(atlasSize, atlasSize);
                 var atlasRects = atlasTexture.PackTextures(textureArray, 2, atlasSize);
-                AssetDatabase.CreateAsset(atlasTexture, localPath + "/" + targetObject.ToString() + "/" + "atlas.asset");
+                AssetDatabase.CreateAsset(atlasTexture, resourcesPath + "/" + targetObject.ToString() + "/" + "atlas.asset");
 
                 foreach (var list in textureDataList) foreach (var item in list.Textures) item.ResetReadable();
 
@@ -459,7 +461,7 @@ class TSEditorWindow : EditorWindow
                         animationClip.SetCurve(GetObjectPath(targetObject), typeof(Transform), "localScale.y", animationCurveScaleY);
                         animationClip.SetCurve(GetObjectPath(targetObject), typeof(Transform), "localScale.z", animationCurveScaleZ);
 
-                        AssetDatabase.CreateAsset(animationClip, localPath + "/" + targetObject.ToString() + "/" + list.index.ToString() + item.index.ToString() + ".anim");
+                        AssetDatabase.CreateAsset(animationClip, resourcesPath + "/" + targetObject.ToString() + "/" + list.index.ToString() + item.index.ToString() + ".anim");
 
                         //AnimationController
                         var state = stateMachine.AddState(item.value.name, new Vector3(list.index * 240.0f, item.index * 60.0f, 0.0f));
@@ -498,9 +500,9 @@ class TSEditorWindow : EditorWindow
                     mainControl.subMenu = subMenu;
                     mainMenu.controls.Add(mainControl);
 
-                    AssetDatabase.CreateAsset(subMenu, localPath + "/" + targetObject.ToString() + "/" + list.value.Name + ".asset");
+                    AssetDatabase.CreateAsset(subMenu, resourcesPath + "/" + targetObject.ToString() + "/" + list.value.Name + ".asset");
                 }
-                AssetDatabase.CreateAsset(mainMenu, localPath + "/" + targetObject.ToString() + "/" + "MainMenu.asset");
+                AssetDatabase.CreateAsset(mainMenu, resourcesPath + "/" + targetObject.ToString() + "/" + "MainMenu.asset");
 
                 var targetControl = new ExpressionControl();
                 targetControl.name = ExpressionsMenuName;
@@ -531,8 +533,9 @@ class TSEditorWindow : EditorWindow
                     textureSetting.ExpressionParameterName = ExpressionParameterName;
                     textureSetting.ExpressionsMenuName = ExpressionsMenuName;
                     textureSetting.AnimatorControllerLayerName = AnimatorControllerLayerName;
+                    textureSetting.resourcesPath = resourcesPath;
                     textureSetting.ExpressionMenuIcon = ExpressionMenuIcon;
-                    AssetDatabase.CreateAsset(textureSetting, localPath + "/" + targetObject.ToString() + "/Setting.asset");
+                    AssetDatabase.CreateAsset(textureSetting, resourcesPath + "/" + targetObject.ToString() + "/Setting.asset");
                 }
             }
         }
