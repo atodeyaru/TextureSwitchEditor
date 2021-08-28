@@ -174,6 +174,7 @@ class TSEditorWindow : EditorWindow
                     {
                         var rect = EditorGUILayout.BeginVertical(GUI.skin.box);
                         {
+                            var delete = false;
                             EditorGUILayout.BeginHorizontal();
                             {
                                 if (GUILayout.Button("Edit"))
@@ -211,9 +212,8 @@ class TSEditorWindow : EditorWindow
 
                                 if (GUILayout.Button("Delete"))
                                 {
-                                    textureDataList.RemoveAt(i);
+                                    delete = true;
                                     selectedSub = -1;
-                                    if (textureDataList.Count < 1) break;
                                 }
                             }
                             EditorGUILayout.EndHorizontal();
@@ -222,6 +222,9 @@ class TSEditorWindow : EditorWindow
                             str.Icon = (Texture2D)EditorGUILayout.ObjectField("SubMenu Icon", textureDataList[i].Icon, typeof(Texture2D), false);
                             str.Name = EditorGUILayout.TextField("SubMenu Name", textureDataList[i].Name);
                             textureDataList[i] = str;
+
+                            if(delete) textureDataList.RemoveAt(i);
+                            if (textureDataList.Count < 1) break;
                         }
                         EditorGUILayout.EndVertical();
 
