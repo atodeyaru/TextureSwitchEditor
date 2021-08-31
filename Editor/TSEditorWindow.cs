@@ -89,6 +89,7 @@ class TSEditorWindow : EditorWindow
         GUILayout.Space(20);
 
         var targetTextureNames = new string[0];
+        if (targetObject != null) if (targetObject.GetComponent<MeshRenderer>() != null) targetTextureNames = targetObject.GetComponent<MeshRenderer>().sharedMaterial.GetTexturePropertyNames();
         advancedSetting = EditorGUILayout.Foldout(advancedSetting, "Advanced Setting");
         if (advancedSetting)
         {
@@ -102,8 +103,6 @@ class TSEditorWindow : EditorWindow
             {
                 atlasSize = EditorGUILayout.IntField("Custom Atlas Size", atlasSize);
             }
-
-            if (targetObject != null) if (targetObject.GetComponent<MeshRenderer>() != null) targetTextureNames = targetObject.GetComponent<MeshRenderer>().sharedMaterial.GetTexturePropertyNames();
 
             targetTexturePopup = EditorGUILayout.Popup("Shader Property", targetTexturePopup, targetTextureNames);
             AnimatorControllerLayerName = EditorGUILayout.TextField("Layer Name", AnimatorControllerLayerName);
@@ -412,12 +411,12 @@ class TSEditorWindow : EditorWindow
 
                 targetObject.GetComponent<MeshRenderer>().sharedMaterial.SetTexture(targetTextureNames[targetTexturePopup], atlasTexture);
 
-                var mainMenu = new ExpressionsMenu();
+                var mainMenu = CreateInstance<ExpressionsMenu>();
 
                 int i = 0;
                 foreach (var list in textureDataList.Select((value, index) => new { value, index }))
                 {
-                    var subMenu = new ExpressionsMenu();
+                    var subMenu = CreateInstance<ExpressionsMenu>();
 
                     foreach (var item in list.value.Textures.Select((value, index) => new { value, index }))
                     {
